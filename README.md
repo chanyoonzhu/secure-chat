@@ -3,11 +3,11 @@ Secure Instant Point-to-Point (P2P) Messaging using Node.js and Socket.IO
 
 ## Todo
 * crypto [https://nodejs.org/api/crypto.html](https://nodejs.org/api/crypto.html)
-** log in using passphrase
-** generate key using passphrase
-** padding strategy
-** message encryption with 56-bit key
-** display both cipher and plaintext
-** bonus: periodically update the key
+    * log in using passphrase
+    * generate key using passphrase
+    * padding strategy
+    * message encryption with 56-bit key
+    * display both cipher and plaintext
+    * bonus: periodically update the key
 * image messaging [serve image](https://stackoverflow.com/questions/26331787/socket-io-node-js-simple-example-to-send-image-files-from-server-to-client)
 * file messaging [serve file](https://medium.com/@Mewsse/file-upload-with-socket-io-9d2d1229494)
