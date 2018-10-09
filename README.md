@@ -1,6 +1,12 @@
 # secure-chat
 Secure Instant Point-to-Point (P2P) Messaging using Node.js and Socket.IO
 
+## Run
+1. git clone https://github.com/chanyoonzhu/secure-chat.git
+2. cd secure-chat
+3. npm install
+4. npm run start
+
 ## Todo
 * crypto [https://nodejs.org/api/crypto.html](https://nodejs.org/api/crypto.html)
     * log in using passphrase
