@@ -7,7 +7,8 @@ mongoose.connect('mongodb://localhost/myDatabase');
 const Schema = mongoose.Schema;
 const UserDetail = new Schema({
       username: { type: String, required: true, unique: true },
-      password: { type: String, required: true }
+      password: { type: String, required: true },
+      salt: {type: String, required: true}
     });
 
 UserDetail.plugin(uniqueValidator);
