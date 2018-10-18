@@ -18,9 +18,17 @@
   },
   "homepage": "https://github.com/chanyoonzhu/secure-chat#readme",
   "dependencies": {
+    "crypto": "^1.0.1",
     "ejs": "^2.6.1",
     "express": "^4.16.3",
+    "mongoose": "^5.3.4",
     "nodemon": "^1.11.0",
-    "socket.io": "^2.1.1"
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "socket.io": "^2.1.1",
+    "sqlite3": "^4.0.2"
+  },
+  "devDependencies": {
+    "body-parser": "^1.18.3"
   }
 }

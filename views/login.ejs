@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" const="text/html;charset=UTF-8" />
+    <link href="http://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="style.css" >
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+    <title>Simple Chat App</title>
+  </head>
+
+  <body>
+    <header>
+      <h1>Secure Chat</h1>
+    </header>
+
+    <section>
+        <div class="error">username/password not correct</div>
+        <form action="/" method="post">
+            <div>
+              <label>Username:</label>
+              <input type="text" name="username" />
+              <br/>
+            </div>
+            <div>
+              <label>Password:</label>
+              <input type="password" name="password" />
+            </div>
+            <div>
+              <input type="submit" value="Submit" />
+            </div>
+        </form>
+    </section>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+  </body>
+</html>
