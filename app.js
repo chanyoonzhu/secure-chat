@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
+const UserDetails = require("./model");
 
 // set the template engine
 app.set('view engine', 'ejs');
@@ -35,22 +36,6 @@ passport.deserializeUser(function(id, cb) {
     cb(err, user);
   });
 });
-
-/* MONGOOSE SETUP */
-
-const mongoose = require('mongoose');
-const uniqueValidator = require("mongoose-unique-validator");
-mongoose.connect('mongodb://localhost/myDatabase');
-
-const Schema = mongoose.Schema;
-const UserDetail = new Schema({
-      username: { type: String, required: true, unique: true },
-      password: { type: String, required: true }
-    });
-
-UserDetail.plugin(uniqueValidator);
-
-const UserDetails = mongoose.model('userInfo', UserDetail, 'userInfo');
 
 /* PASSPORT LOCAL AUTHENTICATION */
 
