@@ -9,7 +9,7 @@ Secure Instant Point-to-Point (P2P) Messaging using Node.js and Socket.IO
 
 ## Todo
 * crypto [https://nodejs.org/api/crypto.html](https://nodejs.org/api/crypto.html)
-    * log in using passphrase
+    * log in using passphrase (done)
     * generate key using passphrase
     * padding strategy
     * message encryption with 56-bit key
