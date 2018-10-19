@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-const UserDetails = require("./model");
+const UserDetails = require("./models/model");
 var auth = require('./authentication');
 
 // set the template engine
