@@ -28,6 +28,7 @@
     "socket.io": "^2.1.1"
   },
   "devDependencies": {
-    "body-parser": "^1.18.3"
+    "body-parser": "^1.18.3",
+    "mongoose-unique-validator": "^2.0.2"
   }
 }
