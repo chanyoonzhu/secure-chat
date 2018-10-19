@@ -17,3 +17,9 @@ Secure Instant Point-to-Point (P2P) Messaging using Node.js and Socket.IO
     * bonus: periodically update the key
 * image messaging [serve image](https://stackoverflow.com/questions/26331787/socket-io-node-js-simple-example-to-send-image-files-from-server-to-client)
 * file messaging [serve file](https://medium.com/@Mewsse/file-upload-with-socket-io-9d2d1229494)
+
+## References
+* [Salt Hash passwords using NodeJS crypto](https://ciphertrick.com/2016/01/18/salt-hash-passwords-using-nodejs-crypto/)
+* [Node.js Authentication with Passport](https://blog.cloudboost.io/node-js-authentication-with-passport-4a125f264cd4)
+* [Local Authentication with Passport and Mongo](https://github.com/sitepoint-editors/LocalPassportAuth)
+* [Local Authentication Using Passport in Node.js](https://www.sitepoint.com/local-authentication-using-passport-node-js/)
