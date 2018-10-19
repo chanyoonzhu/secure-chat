@@ -25,3 +25,5 @@ Secure Instant Point-to-Point (P2P) Messaging using Node.js and Socket.IO
 * [Node.js Authentication with Passport](https://blog.cloudboost.io/node-js-authentication-with-passport-4a125f264cd4)
 * [Local Authentication with Passport and Mongo](https://github.com/sitepoint-editors/LocalPassportAuth)
 * [Local Authentication Using Passport in Node.js](https://www.sitepoint.com/local-authentication-using-passport-node-js/)
+* [Client side encryption with Crypto-js - cdn](https://cdnjs.com/libraries/crypto-js)
+* [CryptoJS example](https://codepen.io/gabrielizalo/pen/oLzaqx)
