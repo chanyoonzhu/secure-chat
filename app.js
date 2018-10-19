@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const UserDetails = require("./model");
+var auth = require('./authentication');
 
 // set the template engine
 app.set('view engine', 'ejs');
@@ -54,7 +55,7 @@ passport.use(new LocalStrategy(
             return done(null, false);
             }
 
-            if (user.password != password) {
+            if (auth.saltHashPassword(password, user.salt) != user.password) {
             return done(null, false);
             }
             return done(null, user);

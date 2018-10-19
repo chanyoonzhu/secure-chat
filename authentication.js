@@ -1,5 +1,4 @@
 'use strict';
-const print = require("print");
 var crypto = require('crypto');
 
 var genRandomString = function(length){
@@ -18,7 +17,7 @@ var sha512 = function(password, salt){
     };
 };
 
-function saltHashPassword(userpassword) {
+var saltHashPassword = function (userpassword) {
     var salt = genRandomString(16); /** Gives us salt of length 16 */
     var passwordData = sha512(userpassword, salt);
     console.log('UserPassword = '+ userpassword);
@@ -26,7 +25,7 @@ function saltHashPassword(userpassword) {
     console.log('nSalt = '+passwordData.salt);
 }
 
-function saltHashPasswordGivenSalt(userpassword, salt) {
+var saltHashPasswordGivenSalt = function (userpassword, salt) {
     var passwordData = sha512(userpassword, salt);
     console.log('UserPassword = '+userpassword);
     console.log('Passwordhash = '+passwordData.passwordHash);
@@ -34,21 +33,18 @@ function saltHashPasswordGivenSalt(userpassword, salt) {
     return passwordData.passwordHash;
 }
 
-const salt1 = genRandomString(16);
-const salt2 = genRandomString(16);
-const hashedPass1 = saltHashPasswordGivenSalt('Security1sF*n', salt1);
-const hashedPass2 = saltHashPasswordGivenSalt('Security1sF*n', salt2);
+// const salt1 = genRandomString(16);
+// const salt2 = genRandomString(16);
+// const hashedPass1 = saltHashPasswordGivenSalt('Security1sF*n', salt1);
+// const hashedPass2 = saltHashPasswordGivenSalt('Security1sF*n', salt2);
 
-console.log(salt1);
-console.log(salt2);
-console.log(hashedPass1);
-console.log(hashedPass2);
+// console.log(salt1);
+// console.log(salt2);
+// console.log(hashedPass1);
+// console.log(hashedPass2);
 
-let output = print({
-    salt1: salt1,
-    salt2: salt2,
-    password1: hashedPass1,
-    password2: hashedPass2
-});
+module.exports = {
+    saltHashPassword: saltHashPasswordGivenSalt
+};
 
-console.log(output);
+
