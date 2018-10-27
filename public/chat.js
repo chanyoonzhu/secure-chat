@@ -21,10 +21,11 @@ $(function(){
         padding: CryptoJS.pad.Pkcs7
     });
     var messageEncrypted = encrypted.toString();
-    console.log(messageEncrypted);
+    console.log("ciphertext: " + messageEncrypted);
 
     // socket
-    socket.emit('new_message', {message : messageEncrypted});
+    socket.emit('new_message', {message : messageEncrypted, username:username.html()});
+
  });
 
  //Listen on new_message
@@ -40,7 +41,7 @@ $(function(){
         padding: CryptoJS.pad.Pkcs7
     });
     var messageDecrypted = decrypted.toString(CryptoJS.enc.Utf8);
-    console.log(messageDecrypted);
+    console.log("plaintext: " + messageDecrypted);
 
     // socket
     chatroom.append("<p class='message'>" + data.username + ": " + messageDecrypted + "</p>");
@@ -53,7 +54,7 @@ $(function(){
 
  //Emit typing
  message.bind("keypress", () => {
-     socket.emit('typing');
+     socket.emit('typing', {username:username.html()});
  });
 
  //Listen on typing

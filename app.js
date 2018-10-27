@@ -26,7 +26,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.get('/success', (req, res) => res.send("Welcome "+ req.query.username + "!!"));
-app.get('/error', (req, res) => res.send("error logging in"));
+app.get('/error', (req, res) => res.render('login'));
 
 passport.serializeUser(function(user, cb) {
   cb(null, user);
@@ -66,7 +66,9 @@ passport.use(new LocalStrategy(
 app.post('/', 
     passport.authenticate('local', { failureRedirect: '/error' }),
     function(req, res) {
-        res.render('index');
+        res.render('index', {
+            "username":req.user.username,
+        });
 });
 
 //socket.io instantiation
@@ -76,23 +78,15 @@ const io = require("socket.io")(server);
 io.on('connection', (socket) => {
     console.log('New user connected');
 
-    //default username
-	socket.username = "Anonymous";
-
-    //listen on change_username
-    socket.on('change_username', (data) => {
-        socket.username = data.username
-    });
-
     //listen on new_message
     socket.on('new_message', (data) => {
         //broadcast the new message
-        io.sockets.emit('new_message', {message : data.message, username : socket.username});
+        io.sockets.emit('new_message', {message : data.message, username : data.username});
     });
 
     //listen on typing
     socket.on('typing', (data) => {
-    	socket.broadcast.emit('typing', {username : socket.username});
+    	socket.broadcast.emit('typing', {username : data.username});
     });
 });
 

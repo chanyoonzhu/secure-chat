@@ -28,11 +28,11 @@ h1 {
     margin: 0px;
 }
 
-div#change_username, section#input_zone {
+div#username, section#input_zone {
     border: 5px outset #8258FA;
 }
 
-div#change_username {
+div#username {
     height: 3%;
     display: inline-block;
     background-color: #BCA9F5;
@@ -58,9 +58,9 @@ section#input_zone {
     transform: translateY(-50%);
 }
 
-input#username {
+/* input#username {
     font-family: 'Comfortaa', sans-serif;
-}
+} */
 
 input#message {
     display: inline-block;
