@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const UserDetails = require("./models/model");
+const crypto = require('crypto');
 var auth = require('./authentication');
 
 // set the template engine
@@ -11,9 +12,11 @@ app.set('view engine', 'ejs');
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// initial salt
+let randomSalt = String.fromCharCode.apply(null, crypto.randomBytes(10));
 // routes
 app.get('/', (req, res) => {
-    res.render('login');
+    res.render('login', {"salt": randomSalt});
 });
 
 // listening on port 3000
@@ -89,4 +92,11 @@ io.on('connection', (socket) => {
     	socket.broadcast.emit('typing', {username : data.username});
     });
 });
+
+// change salt on 10 second interval
+setInterval(function(){
+    randomSalt = String.fromCharCode.apply(null, crypto.randomBytes(10));
+    io.sockets.emit('salt_change', {salt: randomSalt});
+    console.log(randomSalt);
+},20000);   
 

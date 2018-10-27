@@ -14,7 +14,8 @@ $(function(){
  send_message.click(function(){
 
     //encryptipn
-    var passPhrase = localStorage.getItem('pw');
+    var passPhrase = localStorage.getItem('pw') + localStorage.getItem('salt');
+    console.log('pw:' + passPhrase)
     var encrypted = CryptoJS.TripleDES.encrypt(message.val(), passPhrase, { 
         iv: CryptoJS.enc.Hex.parse('00000000000000000000000000000000'),
         mode: CryptoJS.mode.CBC,
@@ -34,7 +35,7 @@ $(function(){
     message.val('');
 
     // decryptipn
-    var passPhrase = "Security1sF*n";
+    var passPhrase = localStorage.getItem('pw') + localStorage.getItem('salt');
     var decrypted = CryptoJS.TripleDES.decrypt(data.message, passPhrase, {
         iv: CryptoJS.enc.Hex.parse('00000000000000000000000000000000'),
         mode: CryptoJS.mode.CBC,
@@ -45,6 +46,11 @@ $(function(){
 
     // socket
     chatroom.append("<p class='message'>" + data.username + ": " + messageDecrypted + "</p>");
+ });
+
+ //Listen on salt change
+ socket.on('salt_change', (data) => {
+    localStorage.setItem('salt', data.salt);
  });
 
  //Emit typing
