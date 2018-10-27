@@ -46,6 +46,10 @@ $(function(){
 
     // socket
     chatroom.append("<p class='message'>" + data.username + ": " + messageDecrypted + "</p>");
+
+    // scroll chat screen to bottom 
+    var chatPanel = document.getElementById("chatroom");
+    chatPanel.scrollTop = chatPanel.scrollHeight;
  });
 
  //Listen on salt change
