@@ -14,7 +14,7 @@ $(function(){
  send_message.click(function(){
 
     //encryptipn
-    var passPhrase = "Security1sF*n";
+    var passPhrase = localStorage.getItem('pw');
     var encrypted = CryptoJS.TripleDES.encrypt(message.val(), passPhrase, { 
         iv: CryptoJS.enc.Hex.parse('00000000000000000000000000000000'),
         mode: CryptoJS.mode.CBC,
@@ -45,11 +45,6 @@ $(function(){
 
     // socket
     chatroom.append("<p class='message'>" + data.username + ": " + messageDecrypted + "</p>");
- });
-
- //Emit a username
- send_username.click(function(){
-     socket.emit('change_username', {username : username.val()});
  });
 
  //Emit typing
