@@ -8,6 +8,12 @@ Secure Instant Point-to-Point (P2P) Messaging using Node.js and Socket.IO
 5. mongod
 6. mongo < models/db.js
 7. npm run start
+8. http://localhost:3000 in your browser
+9. username and password:
+    | username | password      |
+    |----------|---------------|
+    | Alice    | Security1sF*n |
+    | Bob      | Security1sF*n |
 
 ## Todo
 * crypto [https://nodejs.org/api/crypto.html](https://nodejs.org/api/crypto.html)
