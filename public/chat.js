@@ -6,17 +6,42 @@ $(function(){
     var message = $("#message");
     var username = $("#username");
     var send_message = $("#send_message");
+    var send_file = $("#send_file");
+    var submit_file = $("#submit_file");
     var send_username = $("#send_username");
     var chatroom = $("#chatroom");
     var feedback = $("#feedback");
 
+    submit_file.click(function(e){
+        e.preventDefault();
+        var formData = new FormData(send_file);
+        formData['file'] = send_file[0].files[0];
+        console.log(formData);
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:3000/upload",
+            data: formData,
+            processData: false,
+            contentType: false,
+            cache: false,
+            success: function(r){
+                console.log("result",r)
+            },
+            error: function (e) {
+                console.log("some error", e);
+            }
+        });
+        return false;
+    });
+
+    //Emit message
     message.keypress(function (e) {
         if (e.which == 13) {
             submitMessage();
         }
     });
 
-    //Emit message
+   
     send_message.click(function(){
         submitMessage();
     });

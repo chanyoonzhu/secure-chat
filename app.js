@@ -3,6 +3,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const UserDetails = require("./models/model");
 const crypto = require('crypto');
+const fileUpload = require('express-fileupload');
 var auth = require('./authentication');
 
 // set the template engine
@@ -11,6 +12,24 @@ app.set('view engine', 'ejs');
 // add middlewares
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(fileUpload());
+
+// upload file
+app.post('/upload', function(req, res) {
+    // if (Object.keys(req.files).length == 0) {
+    //     return res.status(400).send('No files were uploaded.');
+    // }
+
+    // let secretFile = req.files.secretFile;
+    // console.log(secretFile);
+
+    // secretFile.mv('./public/encryption', function(err) {
+    //     if (err) {
+    //         return res.status(500).send(err);
+    //     }
+    //     res.send('File uploaded!');
+    // });
+});
 
 // initial salt
 let randomSalt = String.fromCharCode.apply(null, crypto.randomBytes(10));

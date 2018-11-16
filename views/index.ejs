@@ -28,6 +28,12 @@
       <button id="send_message" class="vertical-align" type="button">Send</button>
     </section>
 
+    <form ref="uploadForm" id="uploadForm" action="/upload" method="post"
+      encType="multipart/form-data">
+        <input id="send_file" type="file" name="secretFile" />
+        <input id="submit_file" type='submit' value='Upload' />
+    </form>   
+
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script src="encryption/tripledes.js"></script>
     <script src="chat.js"></script>
