@@ -27,27 +27,6 @@ $(function(){
                 data: buffer,
             }); 
         };
-        // console.log(fileReader.result);
-        // var formData = new FormData(send_file);
-        // formData.append('secretFile', send_file.prop('files')[0]);
-        // $.ajax({
-        //     type: "POST",
-        //     url: "http://localhost:3000/upload",
-        //     data: formData,
-        //     cache: false,
-        //     contentType: false,
-        //     enctype: 'multipart/form-data',
-        //     processData: false,
-        //     processData: false,
-        //     contentType: false,
-        //     cache: false,
-        //     success: function(r){
-        //         console.log("result",r)
-        //     },
-        //     error: function (e) {
-        //         console.log("some error", e);
-        //     }
-        // });
         return false;
     });
 
@@ -106,7 +85,15 @@ $(function(){
         console.log('transferred');
         console.log(data);
         console.log(data.type);
-        feedback.html("<p><i><a href='" + data.data + "'>file</a></i></p>");
+        var $download = $("<a>").hide();
+        $download.attr('href', data.data)
+                 .attr('download', data.name);
+        $('body').append($download);
+        $icon = $("<p class='message' ><img src='./images/blank-file.png'></p>")
+                .click(function(){
+                    $download[0].click();
+                });
+        chatroom.append($icon);
     });
 
     function submitMessage (){

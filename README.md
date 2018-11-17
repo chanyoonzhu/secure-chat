@@ -35,6 +35,7 @@ Secure Instant Point-to-Point (P2P) Messaging using Node.js and Socket.IO
 * [Client side encryption with Crypto-js - cdn](https://cdnjs.com/libraries/crypto-js)
 * [CryptoJS example](https://codepen.io/gabrielizalo/pen/oLzaqx)
 * [Reading files in JavaScript using the File APIs](https://www.html5rocks.com/en/tutorials/file/dndfiles/)
+* [flaticon](https://www.flaticon.com/)
 
 ## Features
 * periodically update the key
