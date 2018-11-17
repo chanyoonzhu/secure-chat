@@ -14,32 +14,40 @@ $(function(){
 
     submit_file.click(function(e){
         e.preventDefault();
-        // var fileReader = new FileReader();
-        // fileReader.onload = function () {
-        //     var data = fileReader.result;  // data <-- in this var you have the file data in Base64 format
-        // };
-        // fileReader.readAsDataURL(send_file.prop('files')[0]);
-        var formData = new FormData(send_file);
-        formData.append('secretFile', send_file.prop('files')[0]);
+        var file = send_file.prop('files')[0];
+        var fileReader = new FileReader();
+        fileReader.readAsDataURL(file);
+        fileReader.onload = function (e) {
+            var buffer = fileReader.result; 
+            console.log(buffer);
+            socket.emit('upload', { 
+                name: file.name, 
+                type: file.type, 
+                size: file.size, 
+                data: buffer,
+            }); 
+        };
         // console.log(fileReader.result);
-        $.ajax({
-            type: "POST",
-            url: "http://localhost:3000/upload",
-            data: formData,
-            cache: false,
-            contentType: false,
-            enctype: 'multipart/form-data',
-            processData: false,
-            processData: false,
-            contentType: false,
-            cache: false,
-            success: function(r){
-                console.log("result",r)
-            },
-            error: function (e) {
-                console.log("some error", e);
-            }
-        });
+        // var formData = new FormData(send_file);
+        // formData.append('secretFile', send_file.prop('files')[0]);
+        // $.ajax({
+        //     type: "POST",
+        //     url: "http://localhost:3000/upload",
+        //     data: formData,
+        //     cache: false,
+        //     contentType: false,
+        //     enctype: 'multipart/form-data',
+        //     processData: false,
+        //     processData: false,
+        //     contentType: false,
+        //     cache: false,
+        //     success: function(r){
+        //         console.log("result",r)
+        //     },
+        //     error: function (e) {
+        //         console.log("some error", e);
+        //     }
+        // });
         return false;
     });
 
@@ -91,6 +99,14 @@ $(function(){
     //Listen on typing
     socket.on('typing', (data) => {
         feedback.html("<p><i>" + data.username + " is typing a message..." + "</i></p>");
+    });
+
+    //Listen on file transfer
+    socket.on('upload', (data) => {
+        console.log('transferred');
+        console.log(data);
+        console.log(data.type);
+        feedback.html("<p><i><a href='" + data.data + "'>file</a></i></p>");
     });
 
     function submitMessage (){

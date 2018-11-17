@@ -14,26 +14,6 @@ app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(fileUpload());
 
-// upload file
-app.post('/upload', function(req, res) {
-    
-    if (Object.keys(req.files).length == 0) {
-        return res.status(400).send('No files were uploaded.');
-    }
-
-    let secretFile = req.files.secretFile;
-    console.log(secretFile);
-
-    let fileName = secretFile.name;
-
-    secretFile.mv('./public/uploads/' + fileName, function(err) {
-        if (err) {
-            return res.status(500).send(err);
-        }
-        res.send('File uploaded!');
-    });
-});
-
 // initial salt
 let randomSalt = String.fromCharCode.apply(null, crypto.randomBytes(10));
 // routes
@@ -112,6 +92,16 @@ io.on('connection', (socket) => {
     //listen on typing
     socket.on('typing', (data) => {
     	socket.broadcast.emit('typing', {username : data.username});
+    });
+
+    //listen on upload
+    socket.on('upload', (data) => {
+    	io.sockets.emit('upload', {
+            name: data.name, 
+            type: data.type, 
+            size: data.size, 
+            data: data.data,
+        });
     });
 });
 
