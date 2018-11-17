@@ -12,6 +12,7 @@ $(function(){
     var chatroom = $("#chatroom");
     var feedback = $("#feedback");
 
+    //Transfer file
     submit_file.click(function(e){
         e.preventDefault();
         var file = send_file.prop('files')[0];
@@ -19,12 +20,13 @@ $(function(){
         fileReader.readAsDataURL(file);
         fileReader.onload = function (e) {
             var buffer = fileReader.result; 
+            dataEncrypted = encryptData(buffer)
             console.log(buffer);
             socket.emit('upload', { 
                 name: file.name, 
                 type: file.type, 
                 size: file.size, 
-                data: buffer,
+                data: dataEncrypted,
             }); 
         };
         return false;
@@ -77,11 +79,11 @@ $(function(){
 
     //Listen on file transfer
     socket.on('upload', (data) => {
-        console.log('transferred');
-        console.log(data);
-        console.log(data.type);
+        var message = decryptData(data.data);
+        var messageEncrypted = message['ciphertext'];
+        var messageDecrypted = message['plaintext'];
         var $download = $("<a>").hide();
-        $download.attr('href', data.data)
+        $download.attr('href', messageDecrypted)
                  .attr('download', data.name);
         $('body').append($download);
         $icon = $("<p class='message' ><img src='./images/blank-file.png'></p>")
