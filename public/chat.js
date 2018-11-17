@@ -14,13 +14,22 @@ $(function(){
 
     submit_file.click(function(e){
         e.preventDefault();
+        // var fileReader = new FileReader();
+        // fileReader.onload = function () {
+        //     var data = fileReader.result;  // data <-- in this var you have the file data in Base64 format
+        // };
+        // fileReader.readAsDataURL(send_file.prop('files')[0]);
         var formData = new FormData(send_file);
-        formData['file'] = send_file[0].files[0];
-        console.log(formData);
+        formData.append('secretFile', send_file.prop('files')[0]);
+        // console.log(fileReader.result);
         $.ajax({
             type: "POST",
             url: "http://localhost:3000/upload",
             data: formData,
+            cache: false,
+            contentType: false,
+            enctype: 'multipart/form-data',
+            processData: false,
             processData: false,
             contentType: false,
             cache: false,

@@ -16,19 +16,22 @@ app.use(fileUpload());
 
 // upload file
 app.post('/upload', function(req, res) {
-    // if (Object.keys(req.files).length == 0) {
-    //     return res.status(400).send('No files were uploaded.');
-    // }
+    
+    if (Object.keys(req.files).length == 0) {
+        return res.status(400).send('No files were uploaded.');
+    }
 
-    // let secretFile = req.files.secretFile;
-    // console.log(secretFile);
+    let secretFile = req.files.secretFile;
+    console.log(secretFile);
 
-    // secretFile.mv('./public/encryption', function(err) {
-    //     if (err) {
-    //         return res.status(500).send(err);
-    //     }
-    //     res.send('File uploaded!');
-    // });
+    let fileName = secretFile.name;
+
+    secretFile.mv('./public/uploads/' + fileName, function(err) {
+        if (err) {
+            return res.status(500).send(err);
+        }
+        res.send('File uploaded!');
+    });
 });
 
 // initial salt
