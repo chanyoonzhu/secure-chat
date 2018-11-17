@@ -86,7 +86,7 @@ $(function(){
         $download.attr('href', messageDecrypted)
                  .attr('download', data.name);
         $('body').append($download);
-        $icon = $("<p class='message' ><img src='./images/blank-file.png'></p>")
+        $icon = $("<p class='message' ><img src='./images/blank-file.png'>" + data.name + "</p>")
                 .click(function(){
                     $download[0].click();
                 });
