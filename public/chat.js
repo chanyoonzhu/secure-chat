@@ -48,14 +48,9 @@ $(function(){
         message.val('');
 
         // decryptipn
-        var passPhrase = localStorage.getItem('pw') + localStorage.getItem('salt');
-        var decrypted = CryptoJS.TripleDES.decrypt(data.message, passPhrase, {
-            iv: CryptoJS.enc.Hex.parse('00000000000000000000000000000000'),
-            mode: CryptoJS.mode.CBC,
-            padding: CryptoJS.pad.Pkcs7
-        });
-        var messageDecrypted = decrypted.toString(CryptoJS.enc.Utf8);
-        console.log("plaintext: " + messageDecrypted);
+        message = decryptData(data.message);
+        messageEncrypted = message['ciphertext'];
+        messageDecrypted = message['plaintext'];
 
         // socket
         chatroom.append("<p class='message'>" + data.username + ": " + messageDecrypted + "</p>");
@@ -98,17 +93,36 @@ $(function(){
 
     function submitMessage (){
         //encryptipn
+        messageEncrypted = encryptData(message.val());
+    
+        // socket
+        socket.emit('new_message', {message : messageEncrypted, username:username.html()});
+    }
+
+    function encryptData (data) {
         var passPhrase = localStorage.getItem('pw') + localStorage.getItem('salt');
         console.log('pw:' + passPhrase)
-        var encrypted = CryptoJS.TripleDES.encrypt(message.val(), passPhrase, { 
+        var encrypted = CryptoJS.TripleDES.encrypt(data, passPhrase, { 
             iv: CryptoJS.enc.Hex.parse('00000000000000000000000000000000'),
             mode: CryptoJS.mode.CBC,
             padding: CryptoJS.pad.Pkcs7
         });
         var messageEncrypted = encrypted.toString();
         console.log("ciphertext: " + messageEncrypted);
-    
-        // socket
-        socket.emit('new_message', {message : messageEncrypted, username:username.html()});
+        return messageEncrypted;
+    }
+
+    function decryptData (data) {
+        var passPhrase = localStorage.getItem('pw') + localStorage.getItem('salt');
+        var decrypted = CryptoJS.TripleDES.decrypt(data, passPhrase, {
+            iv: CryptoJS.enc.Hex.parse('00000000000000000000000000000000'),
+            mode: CryptoJS.mode.CBC,
+            padding: CryptoJS.pad.Pkcs7
+        });
+        var messageDecrypted = decrypted.toString(CryptoJS.enc.Utf8);
+        console.log("plaintext: " + messageDecrypted);
+        message['plaintext'] = messageDecrypted;
+        message['ciphertext'] = data;
+        return message;
     }
 });
