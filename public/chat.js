@@ -12,17 +12,21 @@ $(function(){
     var chatroom = $("#chatroom");
     var feedback = $("#feedback");
 
+    var usernameplain = username.html();
+
     //Transfer file
-    submit_file.click(function(e){
+    submit_file.click({username: usernameplain}, function(e){
         e.preventDefault();
         var file = send_file.prop('files')[0];
         var fileReader = new FileReader();
+        var username = e.data.usernameplain;
         fileReader.readAsDataURL(file);
         fileReader.onload = function (e) {
             var buffer = fileReader.result; 
             dataEncrypted = encryptData(buffer)
             console.log(buffer);
             socket.emit('upload', { 
+                username: username,
                 name: file.name, 
                 type: file.type, 
                 size: file.size, 
@@ -86,7 +90,7 @@ $(function(){
         $download.attr('href', messageDecrypted)
                  .attr('download', data.name);
         $('body').append($download);
-        $icon = $("<p class='message' ><img src='./images/blank-file.png'>" + data.name + "</p>")
+        $icon = $("<p class='message image' >" + data.username + ":<img src='" + messageDecrypted + "' class='chat-image'>" + data.name + "</p>")
                 .click(function(){
                     $download[0].click();
                 });

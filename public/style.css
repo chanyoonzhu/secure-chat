@@ -85,10 +85,20 @@ p.message {
     padding: 1vh;
 }
 
+p.image {
+    height: 120px;
+}
+
 .message:nth-child(even) {
     background-color: #81DAF5;
 }
 
 .message:nth-child(odd) {
     background-color: #81BEF7;
+}
+
+.chat-image {
+    width: 200px;
+    height: auto;
+    max-height: 100px;
 }
