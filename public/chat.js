@@ -118,7 +118,7 @@ $(function(){
     function encryptData (data) {
         var passPhrase = localStorage.getItem('pw') + localStorage.getItem('salt');
         console.log('pw:' + passPhrase)
-        var encrypted = CryptoJS.TripleDES.encrypt(data, passPhrase, { 
+        var encrypted = CryptoJS.DES.encrypt(data, passPhrase, { 
             iv: CryptoJS.enc.Hex.parse('00000000000000000000000000000000'),
             mode: CryptoJS.mode.CBC,
             padding: CryptoJS.pad.Pkcs7
@@ -130,7 +130,7 @@ $(function(){
 
     function decryptData (data) {
         var passPhrase = localStorage.getItem('pw') + localStorage.getItem('salt');
-        var decrypted = CryptoJS.TripleDES.decrypt(data, passPhrase, {
+        var decrypted = CryptoJS.DES.decrypt(data, passPhrase, {
             iv: CryptoJS.enc.Hex.parse('00000000000000000000000000000000'),
             mode: CryptoJS.mode.CBC,
             padding: CryptoJS.pad.Pkcs7
