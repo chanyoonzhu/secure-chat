@@ -10,8 +10,7 @@ $(function(){
     var submit_file = $("#submit_file");
     var chatroom = $("#chatroom");
     var feedback = $("#feedback");
-
-    var username = username.html();
+    var usernameplain = username.html();
 
     //Transfer file
     submit_file.click(function(e){
@@ -23,7 +22,7 @@ $(function(){
             var buffer = fileReader.result; 
             dataEncrypted = encryptData(buffer)
             socket.emit('upload', { 
-                username: username,
+                username: usernameplain,
                 name: file.name, 
                 type: file.type, 
                 size: file.size, 
@@ -84,7 +83,6 @@ $(function(){
         var messageEncrypted = message['ciphertext'];
         var messageDecrypted = message['plaintext'];
         var $download = $("<a>").hide();
-        var imageClass = "";
         $download.attr('href', messageDecrypted)
                  .attr('download', data.name);
         $('body').append($download);
