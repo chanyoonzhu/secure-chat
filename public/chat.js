@@ -8,23 +8,20 @@ $(function(){
     var send_message = $("#send_message");
     var send_file = $("#send_file");
     var submit_file = $("#submit_file");
-    var send_username = $("#send_username");
     var chatroom = $("#chatroom");
     var feedback = $("#feedback");
 
-    var usernameplain = username.html();
+    var username = username.html();
 
     //Transfer file
-    submit_file.click({username: usernameplain}, function(e){
+    submit_file.click(function(e){
         e.preventDefault();
         var file = send_file.prop('files')[0];
         var fileReader = new FileReader();
-        var username = e.data.usernameplain;
         fileReader.readAsDataURL(file);
         fileReader.onload = function (e) {
             var buffer = fileReader.result; 
             dataEncrypted = encryptData(buffer)
-            console.log(buffer);
             socket.emit('upload', { 
                 username: username,
                 name: file.name, 
@@ -87,15 +84,30 @@ $(function(){
         var messageEncrypted = message['ciphertext'];
         var messageDecrypted = message['plaintext'];
         var $download = $("<a>").hide();
+        var imageClass = "";
         $download.attr('href', messageDecrypted)
                  .attr('download', data.name);
         $('body').append($download);
-        $icon = $("<p class='message image' >" + data.username + ":<img src='" + messageDecrypted + "' class='chat-image'>" + data.name + "</p>")
-                .click(function(){
-                    $download[0].click();
-                });
+        if(isImageDataUrl(messageDecrypted)) {
+            $icon = $("<p class='message image'>" + data.username + ":<img width='100' height='50' src='" + messageDecrypted + "'>" + data.name + "</p>");
+        } else {
+            $icon = $("<p class='message' >" + data.username + ":<img src='images/blank-file.png'>" + data.name + "</p>")
+        }
+        $icon.click(function(){
+            $download[0].click();
+        });
         chatroom.append($icon);
     });
+
+    function isImageDataUrl (dataUrl) {
+        prefix = "data:";
+        prefixLen = prefix.length;
+        startIdx = prefixLen;
+        meme = "image";
+        endIdx = startIdx + meme.length;
+        console.log(dataUrl.substring(startIdx, endIdx));
+        return dataUrl.substring(startIdx, endIdx) == meme;
+    }
 
     function submitMessage (){
         //encryptipn

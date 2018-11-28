@@ -97,7 +97,7 @@ io.on('connection', (socket) => {
     //listen on upload
     socket.on('upload', (data) => {
     	io.sockets.emit('upload', {
-            username:username,
+            username: data.username,
             name: data.name, 
             type: data.type, 
             size: data.size, 

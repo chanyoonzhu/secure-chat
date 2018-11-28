@@ -86,7 +86,7 @@ p.message {
 }
 
 p.image {
-    height: 120px;
+    height: 60px;
 }
 
 .message:nth-child(even) {
@@ -95,10 +95,4 @@ p.image {
 
 .message:nth-child(odd) {
     background-color: #81BEF7;
-}
-
-.chat-image {
-    width: 200px;
-    height: auto;
-    max-height: 100px;
 }
