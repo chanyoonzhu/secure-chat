@@ -1,4 +1,14 @@
 $(function(){
+
+    // import crypto library
+
+    var pbkdf2 = require('pbkdf2');
+    var derivedKey = pbkdf2.pbkdf2Sync('password', 'salt', 1, 32, 'sha512')
+    console.log(derivedKey);
+
+    var dh = require('diffie-hellman');
+    console.log(dh);
+
     //make connection
     var socket = io.connect('http://localhost:3000');
 
