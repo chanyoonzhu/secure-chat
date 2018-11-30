@@ -1,14 +1,12 @@
 $(function(){
 
     // import crypto library
-
-    var pbkdf2 = require('pbkdf2');
-    var derivedKey = pbkdf2.pbkdf2Sync('password', 'salt', 1, 32, 'sha512')
-    console.log(derivedKey);
-
+	var pbkdf2 = require('pbkdf2');
     var dh = require('diffie-hellman');
     console.log(dh);
 
+	//generate key
+	generateKey();
     //make connection
     var socket = io.connect('http://localhost:3000');
 
@@ -75,6 +73,8 @@ $(function(){
     //Listen on salt change
     socket.on('salt_change', (data) => {
         localStorage.setItem('salt', data.salt);
+	//	console.log('salt is updated');
+	//	updateKey();
     });
 
     //Emit typing
@@ -126,9 +126,12 @@ $(function(){
     }
 
     function encryptData (data) {
-        var passPhrase = localStorage.getItem('pw') + localStorage.getItem('salt');
-        console.log('pw:' + passPhrase)
-        var encrypted = CryptoJS.DES.encrypt(data, passPhrase, { 
+     //   var passPhrase = localStorage.getItem('pw') + localStorage.getItem('salt');
+     //   console.log('pw:' + passPhrase)
+		var derivedKey = localStorage.getItem('key');
+		console.log('key is ');
+		console.log(derivedKey);
+        var encrypted = CryptoJS.DES.encrypt(data, derivedKey.toString(), { 
             iv: CryptoJS.enc.Hex.parse('00000000000000000000000000000000'),
             mode: CryptoJS.mode.CBC,
             padding: CryptoJS.pad.Pkcs7
@@ -139,8 +142,8 @@ $(function(){
     }
 
     function decryptData (data) {
-        var passPhrase = localStorage.getItem('pw') + localStorage.getItem('salt');
-        var decrypted = CryptoJS.DES.decrypt(data, passPhrase, {
+		var derivedKey = localStorage.getItem('key');
+        var decrypted = CryptoJS.DES.decrypt(data, derivedKey.toString(), {
             iv: CryptoJS.enc.Hex.parse('00000000000000000000000000000000'),
             mode: CryptoJS.mode.CBC,
             padding: CryptoJS.pad.Pkcs7
@@ -151,4 +154,12 @@ $(function(){
         message['ciphertext'] = data;
         return message;
     }
+	
+	//generate key
+	function generateKey(){
+		var passWord = localStorage.getItem('pw');
+		var salt = localStorage.getItem('salt');
+		var derivedKey = pbkdf2.pbkdf2Sync(passWord, salt, 1, 64, 'sha512');
+		localStorage.setItem('key', derivedKey);
+	}
 });
