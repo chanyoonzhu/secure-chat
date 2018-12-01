@@ -178,8 +178,5 @@ $(function(){
 		var passWord = localStorage.getItem('pw');
         derivedKey = pbkdf2.pbkdf2Sync(passWord, salt, 50, 56, 'sha512');
         console.log('Initial session key: ' + derivedKey);
-        localStorage.removeItem('pw');
-        localStorage.removeItem('salt');
-        localStorage.removeItem('key');
 	}
 });
