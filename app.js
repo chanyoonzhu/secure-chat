@@ -105,7 +105,7 @@ io.on('connection', (socket) => {
     //listen on dhKey-send
     socket.on('dhKey-send', (data) => {
         io.sockets.emit('dhKey-receive', {username : data.username, dhKey : data.dhKey});
-        console.log("Key received: " + data.username + ": " + data.dhKey);
+        //console.log("Key received: " + data.username + ": " + data.dhKey);
     });       
 });
 
