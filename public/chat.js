@@ -99,7 +99,7 @@ $(function(){
             bobKey = data.dhKey.data;
             aliceSecret = alice.computeSecret(bobKey);
             //console.log(aliceSecret);
-            derivedKey = pbkdf2.pbkdf2Sync(aliceSecret, salt, 50, 56, 'sha512');
+            derivedKey = pbkdf2.pbkdf2Sync(aliceSecret, salt, 50, 8, 'sha512');
             console.log('New session key: ' + derivedKey);
         }
     });
@@ -143,10 +143,6 @@ $(function(){
     }
 
     function encryptData (data) {
-     //   var passPhrase = localStorage.getItem('pw') + localStorage.getItem('salt');
-     //   console.log('pw:' + passPhrase)
-		//var derivedKey = localStorage.getItem('key');
-		//console.log('key is:' + derivedKey);
         var encrypted = CryptoJS.DES.encrypt(data, derivedKey.toString(), { 
             iv: CryptoJS.enc.Hex.parse('00000000000000000000000000000000'),
             mode: CryptoJS.mode.CBC,
@@ -176,7 +172,7 @@ $(function(){
 	//generate key
 	function generateKey(){
 		var passWord = localStorage.getItem('pw');
-        derivedKey = pbkdf2.pbkdf2Sync(passWord, salt, 50, 56, 'sha512');
+        derivedKey = pbkdf2.pbkdf2Sync(passWord, salt, 50, 8, 'sha512');
         console.log('Initial session key: ' + derivedKey);
 	}
 });
