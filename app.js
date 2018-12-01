@@ -16,9 +16,11 @@ app.use(fileUpload());
 
 // initial salt
 let randomSalt = String.fromCharCode.apply(null, crypto.randomBytes(10));
+// initial dhPrime
+let dhPrime = String.fromCharCode.apply(null, crypto.randomBytes(56));
 // routes
 app.get('/', (req, res) => {
-    res.render('login', {"salt": randomSalt});
+    res.render('login', {"salt": randomSalt, "dhPrime" : dhPrime});
 });
 
 // listening on port 3000
@@ -89,11 +91,6 @@ io.on('connection', (socket) => {
         io.sockets.emit('new_message', {message : data.message, username : data.username});
     });
 
-    //listen on typing
-    socket.on('typing', (data) => {
-    	socket.broadcast.emit('typing', {username : data.username});
-    });
-
     //listen on upload
     socket.on('upload', (data) => {
     	io.sockets.emit('upload', {
@@ -104,6 +101,12 @@ io.on('connection', (socket) => {
             data: data.data,
         });
     });
+
+    //listen on dhKey-send
+    socket.on('dhKey-send', (data) => {
+        io.sockets.emit('dhKey-receive', {username : data.username, dhKey : data.dhKey});
+        console.log("Key received: " + data.username + ": " + data.dhKey);
+    });       
 });
 
 // change salt on 10 second interval
@@ -111,5 +114,11 @@ setInterval(function(){
     randomSalt = String.fromCharCode.apply(null, crypto.randomBytes(10));
     io.sockets.emit('salt_change', {salt: randomSalt});
     console.log(randomSalt);
-},20000);   
+},10000);   
 
+// Send key-exchange Request on 10 second interval
+setInterval(function(){
+    //randomSalt = String.fromCharCode.apply(null, crypto.randomBytes(10));
+    io.sockets.emit('key-exchange');
+    console.log("key-exchange");
+},10000);  

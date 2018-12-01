@@ -1,11 +1,21 @@
 $(function(){
 
     // import crypto library
-	var pbkdf2 = require('pbkdf2');
+    var pbkdf2 = require('pbkdf2');
+    var crypto = require('crypto');
     var dh = require('diffie-hellman');
     console.log(dh);
 
-	//generate key
+    //Create Dillie-Hellman Object
+    var dhPrime = localStorage.getItem('dhPrime'); 
+    const alice = dh.createDiffieHellman(dhPrime);
+    var aliceKey = alice.generateKeys();
+    var bobKey = aliceKey;
+    var aliceSecret = alice.computeSecret(bobKey);
+
+    //generate key
+    var derivedKey;
+    var salt = localStorage.getItem('salt');
 	generateKey();
     //make connection
     var socket = io.connect('http://localhost:3000');
@@ -72,19 +82,26 @@ $(function(){
 
     //Listen on salt change
     socket.on('salt_change', (data) => {
-        localStorage.setItem('salt', data.salt);
-	//	console.log('salt is updated');
-	//	updateKey();
+        salt = data.salt;
     });
 
-    //Emit typing
-    message.bind("keypress", () => {
-        socket.emit('typing', {username:username.html()});
+    //Listen on key-exchange
+    socket.on('key-exchange', () => {
+        alice.setPrivateKey(String.fromCharCode.apply(null, crypto.randomBytes(32)), 'ascii');
+        newAliceKey = alice.generateKeys();
+        socket.emit('dhKey-send', {username: usernameplain, dhKey : newAliceKey});
     });
 
-    //Listen on typing
-    socket.on('typing', (data) => {
-        feedback.html("<p><i>" + data.username + " is typing a message..." + "</i></p>");
+    //Listen to dhKey-receive
+    socket.on('dhKey-receive', (data) => {
+        if(data.username != usernameplain){
+            //bobKey = data.dhKey.toString('ascii');
+            bobKey = data.dhKey.data;
+            aliceSecret = alice.computeSecret(bobKey);
+            //console.log(aliceSecret);
+            derivedKey = pbkdf2.pbkdf2Sync(aliceSecret, salt, 50, 56, 'sha512');
+            console.log('New session key: ' + derivedKey);
+        }
     });
 
     //Listen on file transfer
@@ -128,27 +145,28 @@ $(function(){
     function encryptData (data) {
      //   var passPhrase = localStorage.getItem('pw') + localStorage.getItem('salt');
      //   console.log('pw:' + passPhrase)
-		var derivedKey = localStorage.getItem('key');
-		console.log('key is ');
-		console.log(derivedKey);
+		//var derivedKey = localStorage.getItem('key');
+		//console.log('key is:' + derivedKey);
         var encrypted = CryptoJS.DES.encrypt(data, derivedKey.toString(), { 
             iv: CryptoJS.enc.Hex.parse('00000000000000000000000000000000'),
             mode: CryptoJS.mode.CBC,
             padding: CryptoJS.pad.Pkcs7
         });
         var messageEncrypted = encrypted.toString();
-        console.log("ciphertext: " + messageEncrypted);
+        console.log("plaintext: " + data);
+        console.log("sent ciphertext: " + messageEncrypted);
         return messageEncrypted;
     }
 
     function decryptData (data) {
-		var derivedKey = localStorage.getItem('key');
+		//var derivedKey = localStorage.getItem('key');
         var decrypted = CryptoJS.DES.decrypt(data, derivedKey.toString(), {
             iv: CryptoJS.enc.Hex.parse('00000000000000000000000000000000'),
             mode: CryptoJS.mode.CBC,
             padding: CryptoJS.pad.Pkcs7
         });
         var messageDecrypted = decrypted.toString(CryptoJS.enc.Utf8);
+        console.log("received ciphertext: " + data);
         console.log("plaintext: " + messageDecrypted);
         message['plaintext'] = messageDecrypted;
         message['ciphertext'] = data;
@@ -158,8 +176,10 @@ $(function(){
 	//generate key
 	function generateKey(){
 		var passWord = localStorage.getItem('pw');
-		var salt = localStorage.getItem('salt');
-		var derivedKey = pbkdf2.pbkdf2Sync(passWord, salt, 1, 64, 'sha512');
-		localStorage.setItem('key', derivedKey);
+        derivedKey = pbkdf2.pbkdf2Sync(passWord, salt, 50, 56, 'sha512');
+        console.log('Initial session key: ' + derivedKey);
+        localStorage.removeItem('pw');
+        localStorage.removeItem('salt');
+        localStorage.removeItem('key');
 	}
 });
