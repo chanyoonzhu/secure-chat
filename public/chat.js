@@ -143,27 +143,22 @@ $(function(){
     }
 
     function encryptData (data) {
-        var encrypted = CryptoJS.DES.encrypt(data, derivedKey.toString(), { 
-            iv: CryptoJS.enc.Hex.parse('00000000000000000000000000000000'),
-            mode: CryptoJS.mode.CBC,
-            padding: CryptoJS.pad.Pkcs7
-        });
-        var messageEncrypted = encrypted.toString();
-        console.log("plaintext: " + data);
-        console.log("sent ciphertext: " + messageEncrypted);
+        const keyHex = new Buffer(derivedKey);
+        const cipher = crypto.createCipheriv('des-cbc', keyHex, keyHex);
+        let c = cipher.update(data, 'utf8', 'base64');
+        c += cipher.final('base64');
+        var messageEncrypted = c.toString();
         return messageEncrypted;
     }
 
     function decryptData (data) {
-		//var derivedKey = localStorage.getItem('key');
-        var decrypted = CryptoJS.DES.decrypt(data, derivedKey.toString(), {
-            iv: CryptoJS.enc.Hex.parse('00000000000000000000000000000000'),
-            mode: CryptoJS.mode.CBC,
-            padding: CryptoJS.pad.Pkcs7
-        });
-        var messageDecrypted = decrypted.toString(CryptoJS.enc.Utf8);
-        console.log("received ciphertext: " + data);
-        console.log("plaintext: " + messageDecrypted);
+		const keyHex = new Buffer(derivedKey);
+        const cipher = crypto.createDecipheriv('des-cbc', keyHex, keyHex);
+        let c = cipher.update(data, 'base64', 'utf8');
+        c += cipher.final('utf8');
+        var messageDecrypted = c.toString();
+        console.log("ciphertext: " + messageDecrypted);
+        console.log("plaintext: " + data);
         message['plaintext'] = messageDecrypted;
         message['ciphertext'] = data;
         return message;
