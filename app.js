@@ -17,7 +17,8 @@ app.use(fileUpload());
 // initial salt
 let randomSalt = String.fromCharCode.apply(null, crypto.randomBytes(10));
 // initial dhPrime
-let dhPrime = String.fromCharCode.apply(null, crypto.randomBytes(56));
+var temp = crypto.createDiffieHellman(56*8);
+let dhPrime = temp.getPrime('ascii');
 // routes
 app.get('/', (req, res) => {
     res.render('login', {"salt": randomSalt, "dhPrime" : dhPrime});
