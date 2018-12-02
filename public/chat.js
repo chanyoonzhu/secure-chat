@@ -29,6 +29,14 @@ $(function(){
     var chatroom = $("#chatroom");
     var feedback = $("#feedback");
     var usernameplain = username.html();
+    var isFile = false;
+
+    // on file upload change
+    send_file.change(function(){
+        isFile = true;
+        var filename = send_file[0].files[0].name;
+        message.val(filename);
+    });
 
     //Transfer file
     submit_file.click(function(e){
@@ -53,13 +61,25 @@ $(function(){
     //Emit message
     message.keypress(function (e) {
         if (e.which == 13) {
-            submitMessage();
+            if (isFile) {
+                submit_file.trigger('click');
+                isFile = false;
+                message.val("");
+            } else {
+                submitMessage();
+            }
         }
     });
 
    
     send_message.click(function(){
-        submitMessage();
+        if (isFile) {
+            submit_file.trigger('click');
+            isFile = false;
+            message.val("");
+        } else {
+            submitMessage();
+        }
     });
 
     //Listen on new_message
@@ -114,7 +134,7 @@ $(function(){
                  .attr('download', data.name);
         $('body').append($download);
         if(isImageDataUrl(messageDecrypted)) {
-            $icon = $("<p class='message image'>" + data.username + ":<img width='100' height='50' src='" + messageDecrypted + "'>" + data.name + "</p>");
+            $icon = $("<p class='message image'>" + data.username + ": " + data.name + "  <img width='40' height='40' src='" + messageDecrypted + "'></p>");
         } else {
             $icon = $("<p class='message' >" + data.username + ":<img src='images/blank-file.png'>" + data.name + "</p>")
         }

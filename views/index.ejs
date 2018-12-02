@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" const="text/html;charset=UTF-8" />
-    <link href="http://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Bungee|Open+Sans" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="style.css" >
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
     <title>Simple Chat App</title>
@@ -10,7 +10,7 @@
 
   <body>
     <header>
-      <h1>Super Chat</h1>
+      <h1>Secure Chat</h1>
     </header>
 
     <section>
@@ -25,14 +25,16 @@
 
     <section id="input_zone"> 
       <input id="message" class="vertical-align" type="text" />
+      <form ref="uploadForm" id="uploadForm" action="/upload" method="post"
+        encType="multipart/form-data">
+          <div class="upload-btn-wrapper">
+            <button class="btn"></button>
+            <input id="send_file" type="file" name="secretFile" />
+          </div>
+          <input id="submit_file" type='hidden' value='Upload' />
+      </form> 
       <button id="send_message" class="vertical-align" type="button">Send</button>
-    </section>
-
-    <form ref="uploadForm" id="uploadForm" action="/upload" method="post"
-      encType="multipart/form-data">
-        <input id="send_file" type="file" name="secretFile" />
-        <input id="submit_file" type='submit' value='Upload' />
-    </form>   
+    </section>  
 
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script src="bundle.js"></script>

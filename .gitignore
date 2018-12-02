@@ -62,3 +62,7 @@ typings/
 
 # browserify
 bundle.js
+bundle.js*
+
+# OS
+.DS_Store*
