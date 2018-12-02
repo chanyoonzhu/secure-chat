@@ -99,7 +99,7 @@ $(function(){
             bobKey = data.dhKey.data;
             aliceSecret = alice.computeSecret(bobKey);
             //console.log(aliceSecret);
-            derivedKey = pbkdf2.pbkdf2Sync(aliceSecret, salt, 50, 8, 'sha512');
+            derivedKey = pbkdf2.pbkdf2Sync(aliceSecret, salt, 4096, 8, 'sha512');
             console.log('New session key: ' + derivedKey);
         }
     });
@@ -172,7 +172,7 @@ $(function(){
 	//generate key
 	function generateKey(){
 		var passWord = localStorage.getItem('pw');
-        derivedKey = pbkdf2.pbkdf2Sync(passWord, salt, 50, 8, 'sha512');
+        derivedKey = pbkdf2.pbkdf2Sync(passWord, salt, 4096, 8, 'sha512');
         console.log('Initial session key: ' + derivedKey);
 	}
 });
