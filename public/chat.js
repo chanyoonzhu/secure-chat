@@ -177,8 +177,8 @@ $(function(){
         let c = cipher.update(data, 'base64', 'utf8');
         c += cipher.final('utf8');
         var messageDecrypted = c.toString();
-        console.log("ciphertext: " + messageDecrypted);
-        console.log("plaintext: " + data);
+        console.log("plaintext: " + messageDecrypted);
+        console.log("ciphertext: " + data);
         message['plaintext'] = messageDecrypted;
         message['ciphertext'] = data;
         return message;
