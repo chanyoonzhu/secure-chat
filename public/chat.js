@@ -4,7 +4,6 @@ $(function(){
     var pbkdf2 = require('pbkdf2');
     var crypto = require('crypto');
     var dh = require('diffie-hellman');
-    console.log(dh);
 
     //Create Dillie-Hellman Object
     var dhPrime = localStorage.getItem('dhPrime'); 
@@ -189,5 +188,6 @@ $(function(){
 		var passWord = localStorage.getItem('pw');
         derivedKey = pbkdf2.pbkdf2Sync(passWord, salt, 4096, 8, 'sha512');
         console.log('Initial session key: ' + derivedKey);
+        localStorage.removeItem('pw');
 	}
 });

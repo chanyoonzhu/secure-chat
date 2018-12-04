@@ -137,3 +137,20 @@ p.image {
     top: 0;
     opacity: 0;
 }
+
+.error {
+    display: none;
+}
+
+#login-form {
+    width: 250px;
+    margin: 10px auto;
+}
+
+#login-form input {
+    margin: .5em 0;
+}
+
+#login-form #login {
+    text-align: center;
+}
