@@ -36,6 +36,7 @@ make sure your machine has Node.js and mongodb installed
 * file messaging [serve file] (done)(https://medium.com/@Mewsse/file-upload-with-socket-io-9d2d1229494)
 
 ## References
+*[Build a simple chat app with node.js and socket.io](https://medium.com/@noufel.gouirhate/build-a-simple-chat-app-with-node-js-and-socket-io-ea716c093088)
 * [Salt Hash passwords using NodeJS crypto](https://ciphertrick.com/2016/01/18/salt-hash-passwords-using-nodejs-crypto/)
 * [Node.js Authentication with Passport](https://blog.cloudboost.io/node-js-authentication-with-passport-4a125f264cd4)
 * [Local Authentication with Passport and Mongo](https://github.com/sitepoint-editors/LocalPassportAuth)
