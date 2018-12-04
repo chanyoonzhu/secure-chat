@@ -15,13 +15,16 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(fileUpload());
 
 // initial salt
-let randomSalt = String.fromCharCode.apply(null, crypto.randomBytes(10));
+let initialSalt = String.fromCharCode.apply(null, crypto.randomBytes(10));
+console.log(initialSalt);
+// salt
+let randomSalt;
 // initial dhPrime
 var temp = crypto.createDiffieHellman(56*8);
 let dhPrime = temp.getPrime('ascii');
 // routes
 app.get('/', (req, res) => {
-    res.render('login', {"salt": randomSalt, "dhPrime" : dhPrime});
+    res.render('login', {"salt": initialSalt, "dhPrime" : dhPrime});
 });
 
 // listening on port 3000
@@ -34,7 +37,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.get('/success', (req, res) => res.send("Welcome "+ req.query.username + "!!"));
-app.get('/error', (req, res) => res.render('login'));
+app.get('/error', (req, res) => res.render('login',{"salt": initialSalt, "dhPrime" : dhPrime}));
 
 passport.serializeUser(function(user, cb) {
   cb(null, user);
@@ -119,7 +122,6 @@ setInterval(function(){
 
 // Send key-exchange Request on 10 second interval
 setInterval(function(){
-    //randomSalt = String.fromCharCode.apply(null, crypto.randomBytes(10));
     io.sockets.emit('key-exchange');
     console.log("key-exchange");
 },10000);  

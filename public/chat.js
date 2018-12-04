@@ -14,7 +14,8 @@ $(function(){
 
     //generate key
     var derivedKey;
-    var salt = localStorage.getItem('salt');
+    var initialSalt = localStorage.getItem('salt');
+    var salt;
 	generateKey();
     //make connection
     var socket = io.connect('http://localhost:3000');
@@ -185,9 +186,10 @@ $(function(){
 	
 	//generate key
 	function generateKey(){
-		var passWord = localStorage.getItem('pw');
-        derivedKey = pbkdf2.pbkdf2Sync(passWord, salt, 4096, 8, 'sha512');
+        var passWord = localStorage.getItem('pw');
+        derivedKey = pbkdf2.pbkdf2Sync(passWord, initialSalt, 4096, 8, 'sha512');
         console.log('Initial session key: ' + derivedKey);
         localStorage.removeItem('pw');
+        localStorage.removeItem('salt');
 	}
 });
