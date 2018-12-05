@@ -6,7 +6,7 @@ Qianyun Zhu, Lei Wang, Bo Rao
 
 ## Install
 make sure your machine has Node.js and mongodb installed
-1. git clone https://github.com/chanyoonzhu/secure-chat.git
+1. git clone https://github.com/chanyoonzhu/secure-chat.git (skip if already have source code)
 2. cd secure-chat
 3. npm install
 5. mongod (keep it running in one terminal)
