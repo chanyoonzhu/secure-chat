@@ -9,15 +9,13 @@ make sure your machine has Node.js and mongodb installed
 1. git clone https://github.com/chanyoonzhu/secure-chat.git
 2. cd secure-chat
 3. npm install
-5. mongod
-6. mongo < models/db.js
+5. mongod (keep it running in one terminal)
+6. mongo < models/db.js (in another terminal)
 
 ## Run
-1. mongod (if database server is not up yet)
-2. npm install
-7. npm run start
-8. http://localhost:3000 in your browser
-9. usernames and passwords:
+1. npm run start
+2. http://localhost:3000 in your browser (one for each client)
+3. usernames and passwords:
 
 | username | password      |
 |----------|---------------|
